@@ -5,7 +5,7 @@ import java.util.*;
 public class OtusCollection {
 
     public static void main(String[] args) {
-        Integer[] intArray = new Integer[]{2, 1, 8, 7, 5, 9, 4, 3, 6, 10, 19, 11, 13, 12, 15, 14, 16, 17, 18, 0};
+        Integer[] intArray = getRandomIntArray(100);
         String[] strArray = new String[]{"one", "two", "three", "four", "five", "six", "seven", "eight"};
 
         testCollection(Integer.class, intArray);
@@ -39,4 +39,14 @@ public class OtusCollection {
         }
     }
 
+    public static Integer[] getRandomIntArray(int size) {
+        Random r = new Random();
+        Integer[] intArray = new Integer[size];
+
+        for (int i = 0; i < size; i++) {
+            intArray[i] = r.nextInt();
+        }
+
+        return intArray;
+    }
 }
