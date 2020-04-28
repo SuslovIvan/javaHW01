@@ -61,7 +61,12 @@ public class DIYArrayList<T> implements List<T> {
 
     @Override
     public boolean add(T t) {
-        if (size >= items.length || size <= 0) {
+        if (size <= 0) {
+            size = 0;
+            items = new Object[DEFAULT_EMPTY_SIZE];
+        }
+
+        if (size >= items.length) {
             items = expand();
         }
 
@@ -164,7 +169,8 @@ public class DIYArrayList<T> implements List<T> {
     }
 
     private Object[] expand() {
-        return expand(items.length + items.length / 2);
+        //grow on 25%
+        return expand(items.length + items.length / 4);
     }
 
     private Object[] expand(int size) {
