@@ -169,8 +169,8 @@ public class DIYArrayList<T> implements List<T> {
     }
 
     private Object[] expand() {
-        //grow on 25%
-        return expand(items.length + items.length / 4);
+        //grow on 50%
+        return expand(items.length + items.length / 2);
     }
 
     private Object[] expand(int size) {
