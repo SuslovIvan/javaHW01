@@ -11,3 +11,16 @@ rootProject.name = 'javaHW01'
 include 'hw01-gradle'
 include 'hw02-collections'
 
+include 'hw04-gc'
+
+
+
+
+
+
+
+
+
+
+
+
