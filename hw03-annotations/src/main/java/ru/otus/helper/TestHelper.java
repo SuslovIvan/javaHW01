@@ -24,16 +24,15 @@ public class TestHelper {
 
     private Info executeClass(Class<?> clazz) {
         Info info = new Info();
-        Object testObj = getInstance(clazz);
 
         List<Method> beforeMethods = getAllAnnotatedMethods(clazz, Before.class);
-        executeMethod(beforeMethods, testObj, info);
+        executeMethods(beforeMethods, clazz, info);
 
         List<Method> testMethods = getAllAnnotatedMethods(clazz, Test.class);
-        executeMethod(testMethods, testObj, info);
+        executeMethods(testMethods, clazz, info);
 
         List<Method> afterMethods = getAllAnnotatedMethods(clazz, After.class);
-        executeMethod(afterMethods, testObj, info);
+        executeMethods(afterMethods, clazz, info);
 
         int total = getAllAnnotatedMethods(clazz, Before.class, Test.class, After.class).size();
         info.setTotal(total);
@@ -41,11 +40,12 @@ public class TestHelper {
         return info;
     }
 
-    private void executeMethod(List<Method> methods, Object object, Info info) {
+    private void executeMethods(List<Method> methods, Class<?> clazz, Info info) {
         for (Method method : methods) {
+            Object testObj = getInstance(clazz);
             try {
                 method.setAccessible(true);
-                method.invoke(object);
+                method.invoke(testObj);
                 info.incSuccess();
             } catch (Exception ex) {
                 ex.printStackTrace();
