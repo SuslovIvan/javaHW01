@@ -32,9 +32,16 @@ public class TestHelper {
         for (Method testMethod : testMethods) {
             Object instance = getInstance(clazz);
 
-            executeMethods(instance, null, beforeMethods);
-            executeMethods(instance, info, testMethod);
-            executeMethods(instance, null, afterMethods);
+            boolean isPassedBefore = executeMethods(instance, beforeMethods);
+            boolean isPassedTest = executeMethods(instance, testMethod);
+            boolean isPassedAfter = executeMethods(instance, afterMethods);
+
+            if (isPassedBefore && isPassedTest && isPassedAfter) {
+                info.incSuccess();
+            } else {
+                info.incFailed();
+            }
+
         }
 
         info.setTotal(testMethods.length);
@@ -42,20 +49,18 @@ public class TestHelper {
         return info;
     }
 
-    private void executeMethods(Object instance, Info info, Method... methods) {
-        if (info == null) {
-            info = new Info();
-        }
+    private boolean executeMethods(Object instance, Method... methods) {
         for (Method method : methods) {
             try {
                 method.setAccessible(true);
                 method.invoke(instance);
-                info.incSuccess();
             } catch (Exception ex) {
                 ex.printStackTrace();
-                info.incFailed();
+                return false;
             }
         }
+
+        return true;
     }
 
     private Method[] getAllAnnotatedMethods(Class<?> clazz, Class<? extends Annotation>... annotations) {

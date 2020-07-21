@@ -8,7 +8,7 @@ public class FailedTest {
 
     @Before
     private void beforeMethod() throws Exception{
-        System.out.println("FailedTest: before test method");
+        throw new ClassNotFoundException("ERROR");
     }
 
     @Test
@@ -18,7 +18,7 @@ public class FailedTest {
 
     @Test
     private void testMethod02() throws Exception {
-        throw new ArrayIndexOutOfBoundsException("It's not array, sorry");
+        System.out.println("FailedTest: test success method");
     }
 
     @After
