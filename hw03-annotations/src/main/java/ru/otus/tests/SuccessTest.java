@@ -9,17 +9,32 @@ public class SuccessTest {
 
     @Before
     private void beforeTest() {
-        System.out.println("testing success before test method");
+        System.out.println("SuccessTest: before test method");
     }
 
     @Test
-    public void test() {
-        System.out.println("testing success test method");
+    public void test01() {
+        System.out.println("SuccessTest: test method01");
+    }
+
+    @Test
+    public void test02() {
+        System.out.println("SuccessTest: test method02");
+    }
+
+    @Test
+    public void test03() {
+        System.out.println("SuccessTest: test method03");
+    }
+
+    @Test
+    public void test04() {
+        System.out.println("SuccessTest: test method04");
     }
 
     @After
     private void afterTest() {
-        System.out.println("testing success after test method");
+        System.out.println("SuccessTest: after test method");
     }
 
 }

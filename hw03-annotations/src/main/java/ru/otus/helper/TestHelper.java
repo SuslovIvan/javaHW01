@@ -25,27 +25,31 @@ public class TestHelper {
     private Info executeClass(Class<?> clazz) {
         Info info = new Info();
 
-        List<Method> beforeMethods = getAllAnnotatedMethods(clazz, Before.class);
-        executeMethods(beforeMethods, clazz, info);
+        Method[] beforeMethods = getAllAnnotatedMethods(clazz, Before.class);
+        Method[] testMethods = getAllAnnotatedMethods(clazz, Test.class);
+        Method[] afterMethods = getAllAnnotatedMethods(clazz, After.class);
 
-        List<Method> testMethods = getAllAnnotatedMethods(clazz, Test.class);
-        executeMethods(testMethods, clazz, info);
+        for (Method testMethod : testMethods) {
+            Object instance = getInstance(clazz);
 
-        List<Method> afterMethods = getAllAnnotatedMethods(clazz, After.class);
-        executeMethods(afterMethods, clazz, info);
+            executeMethods(instance, null, beforeMethods);
+            executeMethods(instance, info, testMethod);
+            executeMethods(instance, null, afterMethods);
+        }
 
-        int total = getAllAnnotatedMethods(clazz, Before.class, Test.class, After.class).size();
-        info.setTotal(total);
+        info.setTotal(testMethods.length);
 
         return info;
     }
 
-    private void executeMethods(List<Method> methods, Class<?> clazz, Info info) {
+    private void executeMethods(Object instance, Info info, Method... methods) {
+        if (info == null) {
+            info = new Info();
+        }
         for (Method method : methods) {
-            Object testObj = getInstance(clazz);
             try {
                 method.setAccessible(true);
-                method.invoke(testObj);
+                method.invoke(instance);
                 info.incSuccess();
             } catch (Exception ex) {
                 ex.printStackTrace();
@@ -54,8 +58,7 @@ public class TestHelper {
         }
     }
 
-
-    private List<Method> getAllAnnotatedMethods(Class<?> clazz, Class<? extends Annotation>... annotations) {
+    private Method[] getAllAnnotatedMethods(Class<?> clazz, Class<? extends Annotation>... annotations) {
         List<Method> methodList = new ArrayList<>();
 
         for (Class<? extends Annotation> annotation : annotations) {
@@ -67,7 +70,7 @@ public class TestHelper {
             }
         }
 
-        return methodList;
+        return methodList.toArray(Method[]::new);
     }
 
     private <T> T getInstance(Class<T> clazz) {

@@ -8,7 +8,7 @@ public class FailedTest {
 
     @Before
     private void beforeMethod() throws Exception{
-        throw new NullPointerException("Ups, wrong error");
+        System.out.println("FailedTest: before test method");
     }
 
     @Test
@@ -23,6 +23,6 @@ public class FailedTest {
 
     @After
     private void afterMethod() throws Exception {
-        throw new ArithmeticException("2 * 2 = 5");
+        System.out.println("FailedTest: after test method");
     }
 }
