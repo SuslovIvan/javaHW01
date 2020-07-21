@@ -2,8 +2,8 @@ package ru.otus;
 
 public interface DataManagerMBean {
 
-    public void pushData(int size);
+    public void setPushSize(int size);
 
-    public void removeData(int size);
+    public void setRemoveSize(int size);
 
 }

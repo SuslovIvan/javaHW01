@@ -16,19 +16,16 @@ public class Main {
     public static void main(String... args) throws Exception {
         System.out.println("Starting pid: " + ManagementFactory.getRuntimeMXBean().getName());
         switchOnMonitoring();
-        long beginTime = System.currentTimeMillis();
 
-        int size = 5 * 1000 * 1000;
-        int loopCounter = 1000;
-        //int loopCounter = 100000;
         MBeanServer mbs = ManagementFactory.getPlatformMBeanServer();
         ObjectName name = new ObjectName("ru.otus:type=DataManager");
 
         DataManager mbean = new DataManager();
         mbs.registerMBean(mbean, name);
-
-        System.out.println("time:" + (System.currentTimeMillis() - beginTime) / 1000);
+        mbean.start();
     }
+
+    private static long totalGCDuration = 0;
 
     private static void switchOnMonitoring() {
         List<GarbageCollectorMXBean> gcbeans = java.lang.management.ManagementFactory.getGarbageCollectorMXBeans();
@@ -44,8 +41,9 @@ public class Main {
 
                     long startTime = info.getGcInfo().getStartTime();
                     long duration = info.getGcInfo().getDuration();
+                    totalGCDuration += duration;
 
-                    System.out.println("start:" + startTime + " Name:" + gcName + ", action:" + gcAction + ", gcCause:" + gcCause + "(" + duration + " ms)");
+                    System.out.println("start:" + startTime + " Name:" + gcName + ", action:" + gcAction + ", gcCause:" + gcCause + "(" + duration + " ms / " + totalGCDuration + " ms )");
                 }
             };
             emitter.addNotificationListener(listener, null, null);
