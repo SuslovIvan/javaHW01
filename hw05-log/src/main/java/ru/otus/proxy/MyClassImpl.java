@@ -20,6 +20,30 @@ public class MyClassImpl implements MyClassInterface {
     }
 
     @Log
+    public double sum(double d1, double d2) {
+        return d1 + d2;
+    }
+
+    @Log
+    public double sum(double d1, double d2, double d3) {
+        return d1 + d2 + d3;
+    }
+
+    @Log
+    public double sum(long l1, long l2) {
+        return l1 + l2;
+    }
+
+    @Log
+    public void mix(String s1, int i1, double d1) {
+
+    }
+
+    @Log
     public void empty() {
+    }
+
+    public void sout(int arg1, int arg2) {
+        System.out.println(arg1 + " " + arg2);
     }
 }
