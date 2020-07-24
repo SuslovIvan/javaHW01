@@ -76,8 +76,8 @@ public class Agent {
         private void visitArguments(Type[] types) {
             int position = 1;
 
-            for (int i = 0; i < types.length; i++) {
-                String typeDescriptor = types[i].getDescriptor();
+            for (Type type : types) {
+                String typeDescriptor = type.getDescriptor();
                 int opcode = retrieveOpcode(typeDescriptor);
 
                 visitVarInsn(opcode, position);
@@ -111,8 +111,8 @@ public class Agent {
         private String retrieveArgs(Type[] types) {
             StringBuilder args = new StringBuilder();
 
-            for (int i = 0; i < types.length; i++) {
-                args.append(types[i].getDescriptor());
+            for (Type type : types) {
+                args.append(type.getDescriptor());
             }
 
             return args.toString();
